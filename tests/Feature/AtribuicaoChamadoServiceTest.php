@@ -65,6 +65,28 @@ class AtribuicaoChamadoServiceTest extends TestCase
         $this->assertSame($ana->id, $responsavel->id);
     }
 
+    public function test_em_caso_de_empate_seleciona_responsavel_com_menor_id(): void // Testa se o serviço seleciona corretamente o responsável com menor ID em caso de empate
+{
+    $ana = Responsavel::create([
+        'nome' => 'Ana Silva',
+    ]);
+
+    $carlos = Responsavel::create([
+        'nome' => 'Carlos Oliveira',
+    ]);
+
+    $this->criarChamados($ana, 1);
+    $this->criarChamados($carlos, 1);
+
+    $responsavel = app(AtribuicaoChamadoService::class)
+        ->atribuirChamado();
+
+    $this->assertSame($ana->id, $responsavel->id);
+}
+
+
+
+
     private function criarChamados(
         Responsavel $responsavel,
         int $quantidade,
