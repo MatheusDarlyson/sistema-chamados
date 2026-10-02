@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreChamadoRequest;
+use App\Http\Requests\UpdateChamadoRequest;
 use App\Models\Chamado;
 use App\Models\Responsavel;
 use App\Services\AtribuicaoChamadoService;
@@ -11,6 +12,7 @@ use App\Services\AtribuicaoChamadoService;
 
 class ChamadoController extends Controller
 {
+    // Exibe a lista de chamados
     public function index()
     {
         $chamados = Chamado::query()
@@ -23,6 +25,7 @@ class ChamadoController extends Controller
         ]);
     }
 
+    // Exibe o formulário para criar um novo chamado
     public function create()
     {
         $responsaveis = Responsavel::query()
@@ -37,7 +40,58 @@ class ChamadoController extends Controller
         ]);
     }
 
+    // Exibe os detalhes de um chamado específico
+    public function show(Chamado $chamado)
+    {
+        $chamado->load('responsavel'); // Carrega o relacionamento com o responsável
 
+        return inertia('Chamados/Show', [
+            'chamado' => $chamado, // Passa o chamado para a view Inertia
+        ]);
+    }
+
+    // Exibe o formulário para editar um chamado existente
+    public function edit(Chamado $chamado)
+    {
+        $responsaveis = Responsavel::query()
+            ->orderBy('nome') // Ordena os responsáveis por nome
+            ->get([
+                'id',
+                'nome',
+            ]);
+
+        return inertia('Chamados/Edit', [
+            'chamado' => $chamado, // Passa o chamado para a view Inertia
+            'responsaveis' => $responsaveis, // Passa os responsáveis para a view Inertia
+        ]);
+    }
+
+    // Atualiza um chamado existente no banco de dados
+    public function update(
+        UpdateChamadoRequest $request,
+        Chamado $chamado
+    ) {
+        $dados = $request->validated(); // Valida os dados recebidos na requisição
+
+        $chamado->update($dados); // Atualiza o chamado com os dados validados
+
+        return redirect()
+            ->route('chamados.index')
+            ->with('success', 'Chamado atualizado com sucesso.');
+    }
+
+    // Exclui um chamado do banco de dados
+    public function destroy(Chamado $chamado)
+    {
+        $chamado->delete(); // Exclui o chamado do banco de dados
+
+        return redirect()
+            ->route('chamados.index')
+            ->with('success', 'Chamado excluído com sucesso.');
+    }
+
+
+    // Armazena um novo chamado no banco de dados
     public function store(
         StoreChamadoRequest $request,
         AtribuicaoChamadoService $atribuicaoService
