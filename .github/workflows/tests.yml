@@ -1,6 +1,6 @@
 name: Tests
 
-# This workflow will run the tests for the application on every push and pull request to the main or master branches.
+# This workflow will run the tests on every push and pull request to the main or master branch.
 on:
   push:
     branches:
@@ -11,8 +11,8 @@ on:
       - main
       - master
 
+# The workflow contains a single job called "tests" that runs on the latest version of Ubuntu. It consists of several steps, including checking out the code, setting up PHP and Node.js, installing dependencies, preparing the application, building the frontend, and running the tests.
 jobs: 
-  # Run tests
   tests:
     runs-on: ubuntu-latest
 
@@ -37,9 +37,6 @@ jobs:
           php artisan key:generate
           php artisan migrate --force
 
-      - name: Run tests
-        run: php artisan test
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -51,3 +48,6 @@ jobs:
 
       - name: Build frontend
         run: npm run build
+
+      - name: Run tests
+        run: php artisan test
