@@ -13,9 +13,9 @@ class AtribuicaoChamadoServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_seleciona_responsavel_com_menos_chamados_em_aberto(): void
+    public function test_seleciona_responsavel_com_menos_chamados_em_aberto(): void // Testa se o serviço seleciona corretamente o responsável com menos chamados em aberto
     {
-        $ana = Responsavel::create([
+        $ana = Responsavel::create([ 
             'nome' => 'Ana Silva',
         ]);
 
@@ -31,13 +31,13 @@ class AtribuicaoChamadoServiceTest extends TestCase
         $this->criarChamados($carlos, 1);
         $this->criarChamados($mariana, 2);
 
-        $responsavel = app(AtribuicaoChamadoService::class)
+        $responsavel = app(AtribuicaoChamadoService::class) 
             ->atribuirChamado();
 
         $this->assertSame($carlos->id, $responsavel->id);
     }
 
-    public function test_nao_considera_chamados_concluidos_na_distribuicao(): void
+    public function test_nao_considera_chamados_concluidos_na_distribuicao(): void // Testa se o serviço não considera chamados concluídos na distribuição
     {
         $ana = Responsavel::create([
             'nome' => 'Ana Silva',

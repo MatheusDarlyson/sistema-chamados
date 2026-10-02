@@ -7,6 +7,8 @@ use App\StatusChamado;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+
+// Model que representa um chamado no sistema de chamados
 class Chamado extends Model
 {
     protected $fillable = [
@@ -19,7 +21,7 @@ class Chamado extends Model
     ];
 
 
-    protected function casts(): array
+    protected function casts(): array // Define os tipos de dados para os atributos do modelo
     {
         return [
             'prioridade' => PrioridadeChamado::class,
