@@ -71,12 +71,10 @@ class ChamadoController extends Controller
         UpdateChamadoRequest $request,
         Chamado $chamado
     ) {
-        $dados = $request->validated(); // Valida os dados recebidos na requisição
-
-        $chamado->update($dados); // Atualiza o chamado com os dados validados
+        $chamado->update($request->validated()); // Atualiza o chamado com os dados validados
 
         return redirect()
-            ->route('chamados.index')
+            ->route('chamados.show', $chamado) // Redireciona para a página de detalhes do chamado atualizado
             ->with('success', 'Chamado atualizado com sucesso.');
     }
 
