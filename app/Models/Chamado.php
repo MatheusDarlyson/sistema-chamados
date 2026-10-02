@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Enums\PrioridadeChamado;
-use App\Enums\StatusChamado;
+use App\PrioridadeChamado;
+use App\StatusChamado;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -12,7 +12,6 @@ class Chamado extends Model
     protected $fillable = [
         'titulo',
         'descricao',
-        'categoria',
         'prioridade',
         'status',
         'responsavel_id',
